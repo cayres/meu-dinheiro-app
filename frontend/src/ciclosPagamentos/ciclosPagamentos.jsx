@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-import {connect} from 'redux'
-import {bindActionCreators} from 'react-redux'
-import {Route} from 'react-router-dom'
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+import {Route, Redirect} from 'react-router-dom'
 
 import ContentHeader from '../common/template/contentHeader'
 import Content from '../common/template/content'
@@ -10,10 +10,23 @@ import Tabs from '../common/tab/tabs'
 import TabsHeader from '../common/tab/tabsHeader'
 import TabsContent from '../common/tab/tabsContent'
 import TabHeader from '../common/tab/tabHeader'
+import { showTabs, selectTab, setPath } from '../common/tab/tabActions'
+
+
+//teste
 import Dummy1 from '../common/widget/dummy.1'
 import Dummy from '../common/widget/dummy'
 
 class CiclosPagamentos extends Component {
+
+    componentWillMount(){
+        const {match} = this.props
+        console.log(match)
+        this.props.setPath(match.path)
+        this.props.showTabs('tabList', 'tabCreate')
+        this.props.selectTab('tabList')
+    }
+
     render() {
         const {match} = this.props
         return (
@@ -22,15 +35,17 @@ class CiclosPagamentos extends Component {
                 <Content>
                     <Tabs>
                         <TabsHeader>
-                            <TabHeader label='Listar' icon='bars' target={`${match.path}/tabList`} />
-                            <TabHeader label='Incluir' icon='plus' target={`${match.path}/tabCreate`} />
-                            <TabHeader label='Alterar' icon='pencil' target={`${match.path}/tabUpdate`} />
-                            <TabHeader label='Excluir' icon='trash' target={`${match.path}/tabDelete`} />
+                            <TabHeader label='Listar' icon='bars' target='tabList' />
+                            <TabHeader label='Incluir' icon='plus' target='tabCreate' />
+                            <TabHeader label='Alterar' icon='pencil' target='tabUpdate' />
+                            <TabHeader label='Excluir' icon='trash' target='tabDelete' />
                         </TabsHeader>
                         <TabsContent>
-                            <Route exact path={`${match.path}/tabList`} component={Dummy1}/>
-                            <Route path={`${match.path}/:name`} component={Dummy} test="1"/>
-
+                            <div className='tab-content'>
+                                <Route exact path={match.path} component={Dummy1} />
+                                <Route exact path={`match.path/tabList`} component={Dummy1} />
+                                <Route path={`${match.path}/:name`} component={Dummy}/>
+                            </div>
                         </TabsContent>
                     </Tabs>
                 </Content>
@@ -39,4 +54,5 @@ class CiclosPagamentos extends Component {
     }
 }
 
-export default CiclosPagamentos
+const mapDispatchToProps = dispatch => bindActionCreators({setPath, selectTab, showTabs}, dispatch)
+export default connect(null, mapDispatchToProps)(CiclosPagamentos)

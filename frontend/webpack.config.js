@@ -12,7 +12,9 @@ module.exports = {
         historyApiFallback: true
     },
     resolve: {
-        extensions: [' ', '.js', '.jsx'],
+        extensions: [
+            ' ', '.js', '.jsx'
+        ],
         alias: {
             modules: __dirname + '/node_modules',
             jquery: 'modules/jquery/dist/jquery.min.js',
@@ -20,33 +22,30 @@ module.exports = {
         }
     },
     module: {
-        rules: [{
-            test: /.js[x]?$/,
-            use: {
-                loader: 'babel-loader',
-                query: {
-                    presets: ['es2015', 'react'],
-                    plugins: ['transform-object-rest-spread']
-                }
-            },
-            exclude: /node_modules/
-        }, {
-            test: /\.css$/,
-            use: extractTextPlugin.extract({
-                fallback: "style-loader",
-                use: "css-loader"
-              })
-        }, {
-            test:/\.woff|.woff2|.ttf|.eot|.svg|.png|.jpg*.*$/,
-            use: 'file-loader'
-        }]
+        rules: [
+            {
+                test: /.js[x]?$/,
+                use: {
+                    loader: 'babel-loader',
+                    query: {
+                        presets: [
+                            'es2015', 'react'
+                        ],
+                        plugins: ['transform-object-rest-spread']
+                    }
+                },
+                exclude: /node_modules/
+            }, {
+                test: /\.css$/,
+                use: extractTextPlugin.extract({fallback: "style-loader", use: "css-loader"})
+            }, {
+                test: /\.woff|.woff2|.ttf|.eot|.svg|.png|.jpg*.*$/,
+                use: 'file-loader'
+            }
+        ]
     },
     plugins: [
-        new webpack.ProvidePlugin({
-            $: 'jquery',
-            jQuery: 'jquery',
-            'window.jQuery': 'jquery'
-        }),
+        new webpack.ProvidePlugin({$: 'jquery', jQuery: 'jquery', 'window.jQuery': 'jquery'}),
         new extractTextPlugin('app.css')
     ]
 }

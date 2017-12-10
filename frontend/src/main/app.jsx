@@ -8,11 +8,11 @@ import Routes from './routes'
 
 export default props => (
     <div className='wrapper'>
-        <Header />
-        <SideBar />
+        <Header/>
+        <SideBar/>
         <div className='content-wrapper'>
-            <Routes />
+            <Routes/>
         </div>
-        <Footer />
+        <Footer/>
     </div>
 )
